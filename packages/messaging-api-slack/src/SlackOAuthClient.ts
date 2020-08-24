@@ -3,7 +3,6 @@ import querystring from 'querystring';
 import AxiosError from 'axios-error';
 import axios, { AxiosInstance } from 'axios';
 import invariant from 'ts-invariant';
-import omit from 'lodash/omit';
 import warning from 'warning';
 import {
   OnRequestFunction,
@@ -96,7 +95,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    postMessage: (options: SlackTypes.PostMessageOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    postMessage: (
+      options: SlackTypes.PostMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     /**
      * Sends an ephemeral message to a user in a channel.
@@ -123,7 +124,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    postEphemeral: (options: SlackTypes.PostEphemeralOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    postEphemeral: (
+      options: SlackTypes.PostEphemeralOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     /**
      * Updates a message.
@@ -155,7 +158,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    update: (options: SlackTypes.UpdateMessageOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    update: (
+      options: SlackTypes.UpdateMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     /**
      * Deletes a message.
@@ -181,7 +186,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    delete: (options: SlackTypes.DeleteMessageOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    delete: (
+      options: SlackTypes.DeleteMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     /**
      * Share a me message into a channel.
@@ -207,7 +214,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    meMessage: (options: SlackTypes.MeMessageOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    meMessage: (
+      options: SlackTypes.MeMessageOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     /**
      * Retrieve a permalink URL for a specific extant message.
@@ -233,7 +242,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    getPermalink: (options: SlackTypes.GetPermalinkOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    getPermalink: (
+      options: SlackTypes.GetPermalinkOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     /**
      * Schedules a message to be sent to a channel.
@@ -332,7 +343,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    unfurl: (options: SlackTypes.UnfurlOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    unfurl: (
+      options: SlackTypes.UnfurlOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     scheduledMessages: {
       /**
@@ -368,7 +381,9 @@ export default class SlackOAuthClient {
        * });
        * ```
        */
-      list: (options: SlackTypes.GetScheduledMessagesOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+      list: (
+        options: SlackTypes.GetScheduledMessagesOptions
+      ) => Promise<SlackTypes.OAuthAPIResponse>;
     };
   };
 
@@ -429,7 +444,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    open: (options: SlackTypes.OpenViewOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    open: (
+      options: SlackTypes.OpenViewOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     /**
      * Publish a static view for a User.
@@ -542,7 +559,9 @@ export default class SlackOAuthClient {
      * });
      * ```
      */
-    push: (options: SlackTypes.PushViewOptions) => Promise<SlackTypes.OAuthAPIResponse>;
+    push: (
+      options: SlackTypes.PushViewOptions
+    ) => Promise<SlackTypes.OAuthAPIResponse>;
 
     /**
      * Update an existing view.
@@ -658,8 +677,8 @@ export default class SlackOAuthClient {
   ): Promise<SlackTypes.OAuthAPIResponse> {
     try {
       const body = {
-        ...omit(inputBody, ['token', 'accessToken']),
-        token: inputBody.accessToken || inputBody.token || this.accessToken,
+        ...inputBody,
+        token: this.accessToken,
       };
 
       const response = await this.axios.post(
@@ -920,7 +939,9 @@ export default class SlackOAuthClient {
    *
    * @see https://api.slack.com/methods/chat.meMessage
    */
-  private _meMessage(options: SlackTypes.MeMessageOptions): Promise<SlackTypes.OAuthAPIResponse> {
+  private _meMessage(
+    options: SlackTypes.MeMessageOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod('chat.meMessage', options);
   }
 
@@ -976,7 +997,9 @@ export default class SlackOAuthClient {
    *
    * @see https://api.slack.com/methods/chat.unfurl
    */
-  private _unfurl(options: SlackTypes.UnfurlOptions): Promise<SlackTypes.OAuthAPIResponse> {
+  private _unfurl(
+    options: SlackTypes.UnfurlOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'chat.unfurl',
       stringifyPayloadFields(options, ['view'])
@@ -988,7 +1011,9 @@ export default class SlackOAuthClient {
    *
    * @see https://api.slack.com/methods/views.open
    */
-  private _openView(options: SlackTypes.OpenViewOptions): Promise<SlackTypes.OAuthAPIResponse> {
+  private _openView(
+    options: SlackTypes.OpenViewOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'views.open',
       stringifyPayloadFields(options, ['view'])
@@ -1028,7 +1053,9 @@ export default class SlackOAuthClient {
    *
    * @see https://api.slack.com/methods/views.push
    */
-  private _pushView(options: SlackTypes.PushViewOptions): Promise<SlackTypes.OAuthAPIResponse> {
+  private _pushView(
+    options: SlackTypes.PushViewOptions
+  ): Promise<SlackTypes.OAuthAPIResponse> {
     return this.callMethod(
       'views.push',
       stringifyPayloadFields(options, ['view'])
